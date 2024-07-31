@@ -4,8 +4,8 @@ module tb_ring_osc();
 
   wire out;
 
-  reg en;
-  
+  logic en;
+
   ring_osc ro0(.enable(en), .w14(out));
 
   initial begin

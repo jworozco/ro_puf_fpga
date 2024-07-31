@@ -23,20 +23,14 @@
 */
 
 module post_mux_counter    (
-out     ,  // Output of the counter
-finished,  // Output finished signal
-enable  ,  // enable for counter
-clk     ,  // clock Input
-reset      // reset Input
-);
-
 //----------Output Ports--------------
-  output reg finished;
-  output reg [21:0] out;
+  output logic finished,
+  output logic [21:0] out,
 //------------Input Ports--------------
-  input enable, clk, reset;
+  input enable, clk, reset
+  );
 //-------------Code Starts Here-------
-  always @(posedge clk or posedge reset) begin
+  always_ff @(posedge clk or posedge reset) begin
     if (reset) begin
       out <= 28'd0;
       finished <= 0;

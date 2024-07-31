@@ -22,11 +22,12 @@
 *
 */
 
-module race_arbiter(finished1, finished2, reset, out, done);
-  output reg out;
-  output done;
-  input reset, finished1, finished2;
-  wire cnt1_done, cnt2_done, winner;
+module race_arbiter(
+  output reg out,
+  output done,
+  input reset, finished1, finished2,
+  logic cnt1_done, cnt2_done, winner
+  );
 
 
   assign cnt1_done = (finished1 & ~ cnt2_done) === 1'b1;
@@ -34,12 +35,12 @@ module race_arbiter(finished1, finished2, reset, out, done);
   assign winner = cnt1_done | ~ cnt2_done;
   assign done = (finished1 | finished2)? 1'b1 : 1'b0;
 
-  always@(finished1, finished2, reset) begin
+  always_comb begin
     if (reset == 1'b1) begin
-      out <= 1'bX;
+      out = 1'bX;
     end
     else begin
-      out <= winner;
+      out = winner;
     end
   end
 

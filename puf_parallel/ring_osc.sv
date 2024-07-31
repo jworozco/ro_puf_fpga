@@ -21,25 +21,26 @@
 *
 */
 
-module ring_osc(enable, out);
-  output out;
-  input enable;
+module ring_osc(
+  output out,
+  input enable
+  );
 
-  (* dont_touch = "yes" *) wire w1;
-  (* dont_touch = "yes" *) wire w2;
-  (* dont_touch = "yes" *) wire w3;
-  (* dont_touch = "yes" *) wire w4;
-  (* dont_touch = "yes" *) wire w5;
-  (* dont_touch = "yes" *) wire w6;
-  (* dont_touch = "yes" *) wire w7;
-  (* dont_touch = "yes" *) wire w8;
-  (* dont_touch = "yes" *) wire w9;
-  (* dont_touch = "yes" *) wire w10;
-  (* dont_touch = "yes" *) wire w11;
-  (* dont_touch = "yes" *) wire w12;
-  (* dont_touch = "yes" *) wire w13;
-  (* dont_touch = "yes" *) wire w14;
-  (* dont_touch = "yes" *) wire w15;
+  (* dont_touch = "yes" *) logic w1;
+  (* dont_touch = "yes" *) logic w2;
+  (* dont_touch = "yes" *) logic w3;
+  (* dont_touch = "yes" *) logic w4;
+  (* dont_touch = "yes" *) logic w5;
+  (* dont_touch = "yes" *) logic w6;
+  (* dont_touch = "yes" *) logic w7;
+  (* dont_touch = "yes" *) logic w8;
+  (* dont_touch = "yes" *) logic w9;
+  (* dont_touch = "yes" *) logic w10;
+  (* dont_touch = "yes" *) logic w11;
+  (* dont_touch = "yes" *) logic w12;
+  (* dont_touch = "yes" *) logic w13;
+  (* dont_touch = "yes" *) logic w14;
+  (* dont_touch = "yes" *) logic w15;
 
   assign w15 = ~(enable & w14);
   assign w14 = ~ w13;  // w14 is the output we are interested in

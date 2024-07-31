@@ -20,14 +20,14 @@
 *
 */
 
-module mux_16to1(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, sel, out);
+module mux_16to1(
+  input a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p,
+  input [3:0] sel,
+  output reg out
+  );
 
-  input a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p;
-  input [3:0] sel;
-  output reg out;
-
-  always@(*) begin
-    case (sel)
+  always_comb begin
+    unique case (sel)
       4'b0000: out = a;
       4'b0001: out = b;
       4'b0010: out = c;

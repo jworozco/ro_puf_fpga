@@ -2,15 +2,16 @@
 
 module tb_up_counter();
   reg en, clk, rst; // instantiating inputs to the counter
-  reg [7:0] start;  
+  reg [7:0] start;
   wire [7:0] out;   // instantiating output to the counter
 
-  up_counter dut(.out(out), .enable(en), .start(start), .clk(clk), .reset(rst)); // instantiating the up counter DUT
+  // instantiating the up counter DUT
+  up_counter dut(.out(out), .enable(en), .start(start), .clk(clk), .reset(rst));
 
   initial begin
     $display("Start of Up Counter Test");
     $monitor("Output of counter: %d \t Time: %d", out, $time);
-    
+
     // Initialization
     clk = 0;
     start = 8'hFA;
@@ -32,13 +33,13 @@ module tb_up_counter();
     // Counter should stop counting at this point since enable signal is 0
     en = 0;
     #15;
-    
+
     // Start counting again
     en = 1;
     #250;
     $finish;
   end
-  
+
   always #5 clk = !clk;
 
 endmodule
