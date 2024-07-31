@@ -22,14 +22,14 @@
 */
 
 module scrambler_lfsr(
-    input [7:0] chall_in,
+    input [7:0] challenge,
     input clock, reset, increment,
-    output reg [7:0] chall_out);
+    output reg [7:0] scrambler_out);
 
     logic [7:0] lfsr_challenge; //output of the LFSR, internal to the scrambler
 
     LFSR_8bit LFSR(
-      .input_challenge(chall_in),
+      .input_challenge(challenge),
       .output_challenge(lfsr_challenge),
       .clock(clock),
       .reset(reset),
@@ -38,10 +38,10 @@ module scrambler_lfsr(
 
     always_ff @(posedge clock or posedge reset) begin
         if (reset) begin
-            chall_out <= lfsr_challenge;
+            scrambler_out <= lfsr_challenge;
         end
         else if (increment) begin
-            chall_out <=  lfsr_challenge ^ chall_in;
+            scrambler_out <=  lfsr_challenge ^ challenge;
         end
     end
 
