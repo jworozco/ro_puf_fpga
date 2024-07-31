@@ -11,7 +11,7 @@
 * Target Devices: Intel Max 10, Xilinx Spartan 7
 * Tool Versions:
 * Description: The race_arbiter determines which signal finished first. If
-* finished1 is asserted first, then the output is 1. If finished2 is asserted
+* fin1 is asserted first, then the output is 1. If fin2 is asserted
 * first, then output is 0. If both are 1, then behavior is unknown.
 *
 * Dependencies:
@@ -23,17 +23,17 @@
 */
 
 module race_arbiter(
-  output reg out,
-  output done,
-  input reset, finished1, finished2,
-  logic cnt1_done, cnt2_done, winner
+  output logic out,
+  output logic done,
+  input reset, fin1, fin2
   );
 
+  logic cnt1_done, cnt2_done, winner;
 
-  assign cnt1_done = (finished1 & ~ cnt2_done) === 1'b1;
-  assign cnt2_done = (finished2 & ~ cnt1_done) === 1'b1;
+  assign cnt1_done = (fin1 & ~ cnt2_done) === 1'b1;
+  assign cnt2_done = (fin2 & ~ cnt1_done) === 1'b1;
   assign winner = cnt1_done | ~ cnt2_done;
-  assign done = (finished1 | finished2)? 1'b1 : 1'b0;
+  assign done = (fin1 | fin2)? 1'b1 : 1'b0;
 
   always_comb begin
     if (reset == 1'b1) begin

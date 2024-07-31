@@ -1,0 +1,6 @@
+{
+    "DESIGN_NAME": "puf_parallel",
+    "VERILOG_FILES": ["dir::puf_parallel.sv"],
+    "CLOCK_PERIOD": 25,
+    "CLOCK_PORT": "clock"
+  }

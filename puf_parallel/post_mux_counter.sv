@@ -32,7 +32,7 @@ module post_mux_counter    (
 //-------------Code Starts Here-------
   always_ff @(posedge clk or posedge reset) begin
     if (reset) begin
-      out <= 28'd0;
+      out <= 22'd0;
       finished <= 0;
     end
     else if (out[21]==1) begin

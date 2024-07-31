@@ -49,30 +49,30 @@ module puf_parallel_subblock(
     ); // An array of 16 ring oscillators that go into the second mux
 
   (* dont_touch = "yes" *) mux_16to1 first_mux (
-    .ro_out (ro_out[0:15]),
-    .challenge (challenge[3:0]),
-    .first_mux_out (first_mux_out)
+    .in (ro_out[15:0]),
+    .sel (challenge[3:0]),
+    .out (first_mux_out)
     );
 
   (* dont_touch = "yes" *) mux_16to1 second_mux (
-    .ro_out (ro_out[16:31]),
-    .challenge (challenge[7:4]),
-    .second_mux_out (second_mux_out)
+    .in (ro_out[31:16]),
+    .sel (challenge[7:4]),
+    .out (second_mux_out)
     );
 
   (* dont_touch = "yes" *) post_mux_counter pmc1 (
-    .pmc1_out (pmc1_out),
-    .fin1 (fin1),
+    .out (pmc1_out),
+    .finished (fin1),
     .enable (enable[0]),
-    .first_mux_out (first_mux_out),
+    .clk (first_mux_out),
     .reset (reset)
     );
 
   (* dont_touch = "yes" *) post_mux_counter pmc2 (
-    .pmc2_out (pmc2_out),
-    .fin2 (fin2),
+    .out (pmc2_out),
+    .finished (fin2),
     .enable (enable[0]),
-    .second_mux_out (second_mux_out),
+    .clk (second_mux_out),
     .reset (reset));
 
   (* dont_touch = "yes" *) race_arbiter arb (

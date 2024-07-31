@@ -22,7 +22,7 @@
 */
 
 module ring_osc(
-  output out,
+  output ro_out,
   input enable
   );
 
@@ -58,6 +58,6 @@ module ring_osc(
   assign w2 = ~ w1;
   assign w1 = ~ w15;
 
-  assign out = w14;
+  assign ro_out = w14;
 
 endmodule
