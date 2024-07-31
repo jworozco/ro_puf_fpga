@@ -22,13 +22,19 @@
 *
 */
 
-module LFSR_8bit(input_challenge, output_challenge, clock, reset, increment);
-  output reg [7:0] output_challenge;
-  input [7:0] input_challenge;
-  input clock, increment, reset;
+module LFSR_8bit(
+  output logic [7:0] output_challenge,
+  input [7:0] input_challenge,
+  input clock, increment, reset
+  );
 
-  wire new_bit= output_challenge[1] ^ output_challenge[2] ^ output_challenge[3] ^ output_challenge[7];
-  always @(posedge clock or posedge reset) begin
+  logic new_bit;
+  assign new_bit = output_challenge[1] ^
+                   output_challenge[2] ^
+                   output_challenge[3] ^
+                   output_challenge[7];
+
+  always_ff @(posedge clock or posedge reset) begin
     if (reset) begin
         output_challenge <= input_challenge;
     end

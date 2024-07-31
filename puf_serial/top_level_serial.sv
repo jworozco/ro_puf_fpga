@@ -46,15 +46,21 @@ module top_level_serial(
     output ck_io8
     );
 
-    (* dont_touch = "yes" *) wire [7:0] challenge;
-    (* dont_touch = "yes" *) wire [7:0] response;
-    (* dont_touch = "yes" *) wire [31:0] enables;
-    (* dont_touch = "yes" *) wire done;
+    (* dont_touch = "yes" *) logic [7:0] challenge;
+    (* dont_touch = "yes" *) logic [7:0] response;
+    (* dont_touch = "yes" *) logic [31:0] enables;
+    (* dont_touch = "yes" *) logic done;
 
     assign challenge = {ck_io26, ck_io27, ck_io28, ck_io29, ck_io30, ck_io31, ck_io32, ck_io33};
     assign response = {ck_io34, ck_io35, ck_io36, ck_io37, ck_io38, ck_io39, ck_io40, ck_io41};
     assign enables = {32{enable}};
     assign ck_io8 = orred | done;
 
-    (* dont_touch = "yes" *) puf_serial serial_scheme(enables, challenge, response, done, clk, ck_io0);    // ck_io0 is computer_ack for reset
+    (* dont_touch = "yes" *) puf_serial serial_scheme(
+        .enables (enables),
+        .challenge (challenge),
+        .response (response),
+        .done (done),
+        .clk (clk),
+        .ck_io0 (ck_io0));    // ck_io0 is computer_ack for reset
 endmodule

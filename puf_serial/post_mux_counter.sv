@@ -22,26 +22,22 @@
 *
 */
 
-module post_mux_counter    (
-out     ,  // Output of the counter
-finished,  // Output finished signal
-enable  ,  // enable for counter
-clk     ,  // clock Input
-reset      // reset Input
-);
+module post_mux_counter  # (
 `ifdef SIMONLY
   parameter N = 6;  // For simulation use N=6
 `else
-  parameter N = 23;  // Otherwise use N=23
+  parameter N = 23  // Otherwise use N=23
 `endif
+) (
+  //----------Output Ports--------------
+  output logic finished,
+  output logic [N-1:0] out,
+  //------------Input Ports--------------
+  input enable, clk, reset
+);
 
-//----------Output Ports--------------
-  output reg finished;
-  output reg [N-1:0] out;
-//------------Input Ports--------------
-  input enable, clk, reset;
-//-------------Code Starts Here-------
-  always @(posedge clk or posedge reset) begin
+  //-------------Code Starts Here-------
+  always_ff @(posedge clk or posedge reset) begin
     if (reset) begin
       out <= {N{1'b0}};
       finished <= 0;
