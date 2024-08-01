@@ -1,6 +1,10 @@
 # Implementation of Physical Unclonable Function
 
-This is a repository for SCU Senior Design 2020. In this project, we will be implementing two versions of a Ring Oscillator Physical Unclonable Function.
+This repository is a fork of the one created for SCU Senior Design 2020. 
+In this project, I will be adjusting the code to run it on an Altera FPGA.
+The code consist of two implementation of a Ring Oscillator Physical Unclonable Function: serial and parallel.
+The intention is to migrate the code to systemverilog as part of the update.
+The repository is right now in development, so it should not be taken as a working version at this point.
 
 # Background
 
@@ -10,33 +14,13 @@ A ring oscillator (RO) PUF is a delay-based PUF which uses frequency variations 
 
 # Our Designs
 
-We propose a two designs of an 8-bit->8-bit RO PUF.
+The proposal consist of two designs of an 8-bit->8-bit RO PUF.
 
 1. A parallel scheme that we suggest be used as a benchmark for all PUF designs.
 2. A new serial scheme that uses a non-linear scrambler to increase internal entropy (a good measure of randomness) in the system. This scheme also saves in hardware and power compared to the parallel variation.
 
 ![Schematic of Design](/images/puf_scheme.jpg "Schematic of Design") *This is the overall schematic of the serial scheme. Modules surrounded by yellow dotted line are included in the serial scheme. The schematic without these modules is one subblock of the parallel scheme.*
 
-## Getting Started
-
-You'll need to clone this repository with ssh or by some other means. Once you have the files. You're ready to start writing more modules that utilize the blocks currently implemented and testbenches. The way it is currently written, the blocks themselves are written in Verilog and the testbenches are in SystemVerilog, but this doesn't mean blocks can't be written in SystemVerilog (as it is still synthesizable).
-
-Also note: Please work in your own branch!!! You can do this via: `git checkout -b MyNewBranch`. Once you are ready to merge the changes into master, create a Pull Request on this page, and we can review the code.
-
-To behaviorally test the block that you are working with (assuming the testbench and rtl for the block are implemented), we are going to use Synopsys VCS. To compile:
-
-```
-vcs [TESTBENCH_FILE] [RTL_FILE] -sverilog -debug_access+all -full64
-```
-
-To actually run the simulation, you have two options:
-
-1. `./simv` will run the sim in the existing terminal session outputting all monitor and display statements
-2. `./simv -gui &` will bring up the GUI where you can take a look at the waveform.
-
-## Using Vivado to Synthesize and Implement on Board
-
-For our purpose, we use a Digilent S7, provided by Pat McGuire of Xilinx. The reference manual is located [here](https://reference.digilentinc.com/reference/programmable-logic/arty-s7/start)
 
 ### Design Placement
 
@@ -60,17 +44,11 @@ To simulate the PUF being manufactured on different ICs, we can place the PUF de
     add_cells_to_pblock my_pblock [get_cells my_list_of_cells]
     ```
 
-## Creators
+## Original Creators
 
 * Abigail Aguirre
 * Michael Hall
 * Tim Lim
-* Jonathan Trinh (owner of repo)
+* Jonathan Trinh (owner of forked repo)
+* For this fork Jose W Orozco is working on the updates.
 
-## Special Thanks To
-
-* Dr. Sara Tehranipoor (Advisor and Hardware Security Expert) from SCU
-* Pat McGuire (Sponsor) from Xilinx
-* Professor Jim Lewis (Implementation Aid) from SCU
-* Dr. Cary Yang (Senior Design Facilitator) from SCU
-* Dr. Shoba Krishnan (EE Department Chair) from SCU
