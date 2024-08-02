@@ -22,9 +22,10 @@
 
 module shift_register (
   input clk, in,
-  output [7:0] out,
-  logic [7:0] tmp
+  output [7:0] out
   );
+
+  logic [7:0] tmp;
 
   always_ff @(posedge clk) begin
     tmp <= {tmp[6:0],in};
