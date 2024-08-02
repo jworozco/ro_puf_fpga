@@ -6,3 +6,6 @@ ucli.key
 simv
 simv.daidir
 *.gz
+
+puf_parallel/runs
+puf_serial/runs

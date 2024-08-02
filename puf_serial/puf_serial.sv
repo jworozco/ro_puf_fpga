@@ -31,7 +31,7 @@ module puf_serial(
     input clock, reset
 );
 
-  (* dont_touch = "yes" *) logic out, bit_done, local_counter_reset, scrambler_reset, arbiter_reset;
+  (* dont_touch = "yes" *) logic out, bit_done, local_counter_reset, increment, arbiter_reset;
   (* dont_touch = "yes" *) logic [3:0] buffer_count;
   (* dont_touch = "yes" *) logic buffer_full, buffer_empty;
   (* dont_touch = "yes" *) logic [7:0] scrambler_out;
@@ -46,60 +46,60 @@ module puf_serial(
     .scrambler_out (scrambler_out),
     .clock (clock),
     .reset (reset),
-    .scrambler_reset(scrambler_reset));
+    .increment(increment));
 
-  (* dont_touch = "yes" *) ring_osc first_ro (
+  (* dont_touch = "yes" *) ring_osc first_ro[15:0] (
     .enable (enable[15:0]),
-    .ro_out (ro_out[15:0])); // An array of ring oscillators
+    .out (ro_out[15:0])); // An array of ring oscillators
 
-  (* dont_touch = "yes" *) ring_osc second_ro (
+  (* dont_touch = "yes" *) ring_osc second_ro[15:0] (
     .enable (enable[31:16]),
-    .ro_out (ro_out[31:16])); // An array of ring oscillators
+    .out (ro_out[31:16])); // An array of ring oscillators
 
   (* dont_touch = "yes" *) mux_16to1 first_mux (
-    .ro_out (ro_out[0:15]),
-    .scrambler_out (scrambler_out[3:0]),
-    .first_mux_out (first_mux_out));
+    .in (ro_out[15:0]),
+    .sel (scrambler_out[3:0]),
+    .out (first_mux_out));
 
   (* dont_touch = "yes" *) mux_16to1 second_mux (
-    .ro_out (ro_out[16:31]),
-    .scrambler_out (scrambler_out[7:4]),
-    .second_mux_out (second_mux_out));
+    .in (ro_out[31:16]),
+    .sel (scrambler_out[7:4]),
+    .out (second_mux_out));
 
   (* dont_touch = "yes" *) post_mux_counter pmc1 (
-    .pmc1_out (pmc1_out),
-    .fin1 (fin1),
+    .out (pmc1_out),
+    .finished (fin1),
     .enable (enable[0]),
-    .first_mux_out(first_mux_out),
-    .local_counter_reset (local_counter_reset));
+    .clk(first_mux_out),
+    .reset (local_counter_reset));
 
   (* dont_touch = "yes" *) post_mux_counter pmc2 (
-    .pmc2_out (pmc2_out),
-    .fin2 (fin2),
+    .out (pmc2_out),
+    .finished (fin2),
     .enable (enable[0]),
-    .second_mux_out (second_mux_out),
-    .local_counter_reset (local_counter_reset));
+    .clk (second_mux_out),
+    .reset (local_counter_reset));
 
   (* dont_touch = "yes" *) race_arbiter arb (
     .fin1 (fin1),
     .fin2 (fin2),
-    .arbiter_reset (arbiter_reset),
+    .reset (arbiter_reset),
     .out (out),
-    .bit_done (bit_done));
+    .done (bit_done));
 
   (* dont_touch = "yes" *) smart_buffer buff (
     .clock (clock),
-    .out (out),
+    .dataIn (out),
     .bit_done (bit_done),
-    .response (response),
-    .buffer_count (buffer_count),
-    .buffer_full (buffer_full),
-    .buffer_empty (buffer_empty),
-    .reset (reset),
-    .scrambler_reset (scrambler_reset),
+    .dataOut (response),
+    .count (buffer_count),
+    .full (buffer_full),
+    .empty (buffer_empty),
+    .computer_ack_reset (reset),
+    .scrambler_reset (increment),
     .arbiter_reset (arbiter_reset),
-    .local_counter_reset (local_counter_reset),
-    .done (done));
+    .counter_reset (local_counter_reset),
+    .ready_to_read (done));
 
 endmodule
 

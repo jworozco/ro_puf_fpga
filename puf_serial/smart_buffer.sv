@@ -22,7 +22,7 @@
 */
 
 module smart_buffer (
-    input clock, dataIn, bit_done, computer_ack_reset,
+    input clock, dataIn, computer_ack_reset, bit_done,
     output full,
     output empty,
     output counter_reset,
@@ -32,7 +32,7 @@ module smart_buffer (
     output logic ready_to_read,
     output [7:0] dataOut,
 
-    output logic [3:0] count = 0);
+    output logic [3:0] count);
 
     assign full  = (count==8)? 1'b1 : 1'b0;
     assign empty = (count==0)? 1'b1 : 1'b0;
